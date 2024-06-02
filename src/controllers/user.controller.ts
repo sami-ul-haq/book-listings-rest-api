@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import createHttpError from "http-errors";
 import { userModel } from "../models/user.model";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
