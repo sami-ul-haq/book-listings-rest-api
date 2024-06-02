@@ -5,8 +5,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../config/config";
 import { asyncHandler } from "../../utils/asyncHandler";
-import { access } from "fs";
 
+// Register
 const createUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
@@ -45,6 +45,7 @@ const createUser = asyncHandler(
   }
 );
 
+// Login
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
