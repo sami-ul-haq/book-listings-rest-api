@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { asyncHandler } from "../../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler";
 import createHttpError from "http-errors";
-import cloudinary from "../../utils/cloudinary";
+import cloudinary from "../utils/cloudinary";
 import path from "path";
 import { bookModel } from "../models/book.model";
 import fs from "fs";

@@ -4,7 +4,7 @@ import { userModel } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../config/config";
-import { asyncHandler } from "../../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler";
 
 // Register
 const createUser = asyncHandler(

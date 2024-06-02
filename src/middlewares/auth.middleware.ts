@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import { config } from "../config/config";
 import { userModel } from "../models/user.model";
-import { asyncHandler } from "../../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export interface AuthRequest extends Request {
   userId: String;
