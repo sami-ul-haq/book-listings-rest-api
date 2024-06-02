@@ -9,9 +9,11 @@
   "author": "Sami ul Haq",
   "license": "ISC",
   "dependencies": {
+    "@types/http-errors": "^2.0.4",
     "@types/node": "^20.13.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "http-errors": "^2.0.0",
     "mongoose": "^8.4.1",
     "nodemon": "^3.1.2",
     "ts-node": "^10.9.2",
