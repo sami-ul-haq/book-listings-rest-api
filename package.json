@@ -1,0 +1,27 @@
+{
+  "name": "book-shop-backend",
+  "version": "1.0.0",
+  "description": "This is a book shop",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.ts"
+  },
+  "author": "Sami ul Haq",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.13.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "nodemon": "^3.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "globals": "^15.3.0",
+    "typescript-eslint": "^7.11.0"
+  }
+}
