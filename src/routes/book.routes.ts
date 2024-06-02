@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { createBook } from "../controllers/book.controller";
+import {
+  createBook,
+  deleteBookById,
+  getAllBooks,
+  getBookById,
+  updateBookById,
+} from "../controllers/book.controller";
 import { upload } from "../middlewares/multer.middleware";
 import { authenticateUser } from "../middlewares/auth.middleware";
 
@@ -20,5 +26,17 @@ bookRouter.route("/add-book").post(
   ]),
   createBook
 );
+
+// Update Book
+bookRouter.route("/:bookId").patch(authenticateUser, updateBookById);
+
+// Get all Books
+bookRouter.route("/").get(getAllBooks);
+
+// Get Single Book By Id
+bookRouter.route("/:bookId").get(getBookById);
+
+// Delete Book
+bookRouter.route("/:bookId").delete(authenticateUser, deleteBookById);
 
 export default bookRouter;

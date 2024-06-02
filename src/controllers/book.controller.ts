@@ -65,4 +65,79 @@ const createBook = asyncHandler(
   }
 );
 
-export { createBook };
+const updateBookById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json({
+      message: "Book updated successfully",
+    });
+  }
+);
+
+const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
+  // Add pagination
+  const books = await bookModel.find();
+
+  res.status(200).json({
+    message: "All Books",
+    books,
+  });
+});
+
+const getBookById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const bookId = req.params.bookId;
+
+    // const book = await bookModel.findById(bookId);
+    const book = await bookModel.findOne({ _id: bookId });
+
+    if (!book) {
+      return next(createHttpError(404, "Book NOt FOund"));
+    }
+
+    res.status(200).json({
+      message: "Book Fetched Successfully",
+      book,
+    });
+  }
+);
+
+const deleteBookById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const bookId = req.params.bookId;
+
+    const book = await bookModel.findOne({ _id: bookId });
+
+    if (!book) {
+      return next(createHttpError(404, "Book Not Found"));
+    }
+
+    // Check Access
+    const _req = req as AuthRequest;
+
+    if (book.author.toString() !== _req.userId) {
+      return next(
+        createHttpError(403, "You don't have permissions to delete this book!")
+      );
+    }
+
+    const coverFileSplits = book.coverImage.split("/");
+    const coverFileId =
+      coverFileSplits.at(-2) + "/" + coverFileSplits.at(-1)?.split(".").at(-2);
+
+    const pdfFileSplits = book.bookFile.split("/");
+    const pdfFileId = pdfFileSplits.at(-2) + "/" + pdfFileSplits.at(-1);
+
+    await cloudinary.uploader.destroy(coverFileId);
+    await cloudinary.uploader.destroy(pdfFileId, {
+      resource_type: "raw",
+    });
+
+    await bookModel.deleteOne({ _id: bookId });
+
+    res.status(200).json({
+      message: "Book deleted successfully",
+    });
+  }
+);
+
+export { createBook, updateBookById, getAllBooks, getBookById, deleteBookById };
