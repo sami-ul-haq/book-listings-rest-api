@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../config/config";
 import { asyncHandler } from "../../utils/asyncHandler";
+import { access } from "fs";
 
 const createUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -37,11 +38,43 @@ const createUser = asyncHandler(
       expiresIn: "7d",
     });
 
-    res.status(200).json({
+    res.status(201).json({
       message: "User Registered Successfully",
       accessToken: token,
     });
   }
 );
 
-export { createUser };
+const loginUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(createHttpError(400, "All Fields Required"));
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return next(createHttpError(400, "User Not Found"));
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return next(createHttpError(400, "Email or Password Incorrect"));
+    }
+
+    //   Token generation
+    const token = jwt.sign({ sub: user._id }, config.jwtSecret as string, {
+      expiresIn: "7d",
+    });
+
+    res.status(200).json({
+      message: "OK",
+      accessToken: token,
+    });
+  }
+);
+
+export { createUser, loginUser };
