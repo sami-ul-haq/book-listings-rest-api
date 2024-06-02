@@ -16,7 +16,7 @@ const bookSchema = new mongoose.Schema<Book>(
       type: String,
       required: true,
     },
-    file: {
+    bookFile: {
       type: String,
       required: true,
     },

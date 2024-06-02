@@ -1,23 +1,34 @@
-import { Request } from "express";
-import multer, { diskStorage } from "multer";
-
-const storage = diskStorage({
-  destination: function (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) {
-    cb(null, "./pulic/temp");
-  },
-  filename: function (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) {
-    cb(null, file.originalname);
-  },
-});
+// import { Request } from "express";
+import multer from "multer";
+// import multer, { diskStorage } from "multer";
+import path from "path";
 
 export const upload = multer({
-  storage,
+  dest: path.resolve(__dirname, "../../public/temp"),
+  limits: {
+    fileSize: 3e7,
+  },
 });
+
+// const storage = diskStorage({
+//   destination: function (
+//     req: Request,
+//     file: Express.Multer.File,
+//     cb: (error: Error | null, destination: string) => void
+//   ) {
+//     cb(null, path.resolve(__dirname, "../../public/temp"));
+//   },
+//   filename: function (
+//     req: Request,
+//     file: Express.Multer.File,
+//     cb: (error: Error | null, filename: string) => void
+//   ) {
+//     cb(null, file.originalname);
+//   },
+// });
+
+// export const upload = multer({
+//   storage,
+// });
+
+// Its better to us this fucntion

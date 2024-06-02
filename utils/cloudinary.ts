@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import { config } from "../src/config/config";
-import fs from "fs";
+// import fs from "fs";
 
 cloudinary.config({
   cloud_name: config.cloudinaryCloudName,
@@ -8,22 +8,26 @@ cloudinary.config({
   api_secret: config.cloudinaryApiSecret,
 });
 
-const uploadOnCloudinary = async (localFilePath: string) => {
-  try {
-    if (!localFilePath) return null;
+export default cloudinary;
 
-    const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "auto",
-    });
+// const uploadOnCloudinary = async (localFilePath: string) => {
+//   try {
+//     if (!localFilePath) return null;
 
-    fs.unlinkSync(localFilePath);
+//     const response = await cloudinary.uploader.upload(localFilePath, {
+//       resource_type: "auto",
+//     });
 
-    return response;
-  } catch (error) {
-    fs.unlinkSync(localFilePath);
+//     fs.unlinkSync(localFilePath);
 
-    return null;
-  }
-};
+//     return response;
+//   } catch (error) {
+//     fs.unlinkSync(localFilePath);
 
-export { uploadOnCloudinary };
+//     return null;
+//   }
+// };
+
+// export { uploadOnCloudinary };
+
+// Its better to use this function.

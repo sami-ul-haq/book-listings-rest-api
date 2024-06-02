@@ -5,15 +5,14 @@ import { upload } from "../middlewares/multer.middleware";
 const bookRouter = Router();
 
 // Add Book
-bookRouter.post(
-  "/add-book",
+bookRouter.route("/add-book").post(
   upload.fields([
     {
       name: "coverImage",
       maxCount: 1,
     },
     {
-      name: "file",
+      name: "bookFile",
       maxCount: 1,
     },
   ]),
