@@ -11,6 +11,9 @@ const createUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
 
+    // @ts-ignore
+    console.log("User Id: ", req.userId);
+
     // Validation
     if (!name || !email || !password) {
       return next(createHttpError(400, "All fields are required"));

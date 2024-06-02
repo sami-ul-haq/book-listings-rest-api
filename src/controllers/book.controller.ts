@@ -5,6 +5,7 @@ import cloudinary from "../../utils/cloudinary";
 import path from "path";
 import { bookModel } from "../models/book.model";
 import fs from "fs";
+import { AuthRequest } from "../middlewares/auth.middleware";
 
 const createBook = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -20,6 +21,13 @@ const createBook = asyncHandler(
       coverImageName
     );
 
+    const pdfFileName = files.coverImage[0].filename;
+    const pdfFilePath = path.resolve(
+      __dirname,
+      "../../public/temp",
+      pdfFileName
+    );
+
     const coverImageUploadResult = await cloudinary.uploader.upload(
       coverImagePath,
       {
@@ -29,13 +37,6 @@ const createBook = asyncHandler(
       }
     );
 
-    const pdfFileName = files.coverImage[0].filename;
-    const pdfFilePath = path.resolve(
-      __dirname,
-      "../../public/temp",
-      pdfFileName
-    );
-
     const pdfUploadResult = await cloudinary.uploader.upload(pdfFilePath, {
       resource_type: "raw",
       filename_override: pdfFileName,
@@ -43,16 +44,19 @@ const createBook = asyncHandler(
       format: "pdf",
     });
 
+    const _req = req as AuthRequest;
+
     const newBook = await bookModel.create({
       title,
-      author: "665c6020b9715fc75186e716",
+      author: _req.userId,
       genre,
       coverImage: coverImageUploadResult.secure_url,
       bookFile: pdfUploadResult.secure_url,
     });
 
-    await fs.promises.unlink(pdfFilePath);
     await fs.promises.unlink(coverImagePath);
+    await fs.promises.unlink(pdfFilePath);
+    // These two line can give you errors
 
     res.status(201).json({
       message: "Book created successfully",
